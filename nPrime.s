@@ -2,7 +2,7 @@
 .global wrb
 .global rdb
 
-.equ count, 1000000000
+.equ count, 1000000000 // Set this to mark the upper limit of the targeted number
 
 .data
 
@@ -21,7 +21,6 @@ primend: // This marks then end of my allocation
 //r7 = 
 //r8 = Highest prime 
 //r9 = Current prime
-//r10=
 
 .macro rdb lmem, arradd, val // Read a bit
 	MOV r3, #1
@@ -48,12 +47,8 @@ main:
 	LDR r8, =count // Highest prime
 	LDR r0, =primestart // First memory address for primes
 	LDR r7, =primend //Last memory address for primes
-	@ADD r8, r8, #15
-	@SUB sp, sp, r8, LSR#4
-	@SUB r8, r8, #15
 	MOV r2, #0
 	MOV r1, #0
-	@BL clsl
 	MOV r6, #3
 	MOV r9, r6
 	B pLoop
@@ -88,14 +83,5 @@ nextP:
 			// so that it knows that we've reached the last prime
 	B nextP // Otherwise we restart the function
 
-clsl: //Clean slate, set memory to 0's
-	wrb r0, r1, r2
-	ADD r1, r1, #1
-	CMP r8, r1, LSL#1
-	BXMI LR
-	B clsl
-
 exit:
 	bkpt
-
-string: .asciz "%d\n"
