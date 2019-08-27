@@ -1,6 +1,16 @@
 
+debugPrime: debugPrime.o
+	gcc -g debugPrime.o -o $@
+
+debugPrime.o: nPrime.s
+	as -g nPrime.s -o $@
+
 nPrime: nPrime.o
-	gcc -g nPrime.o -o nPrime
+	gcc nPrime.o -o $@
 
 nPrime.o: nPrime.s
-	as -g nPrime.s -o nPrime.o
+	as nPrime.s -o $@
+
+
+clean:
+	rm *.o nPrime debugPrime
