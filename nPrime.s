@@ -106,6 +106,6 @@ exit:
 	MOV r2, r9
 	BL printf
 	bkpt
-#ifend
+#endif
 
 str: .asciz "Count: %d, Highest prime: %d\n"
