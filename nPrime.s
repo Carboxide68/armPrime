@@ -2,11 +2,13 @@
 .global wrb
 .global rdb
 
-.equ count, 1000000000 // Set this to mark the upper limit of the targeted number
+.extern printf
+
+.equ count, 100000 // Set this to mark the upper limit of the targeted number
 
 .data
 
-primestart: .SPACE count/8 + 16 // Adding some extra memory can't hurt, right? Also, since I store primes in bits I need an 8th the amount of bytes
+primestart: .SPACE count/16 + 16 // Adding some extra memory can't hurt, right? Also, since I store primes in bits I need an 8th the amount of bytes
 
 primend: // This marks then end of my allocation
 
@@ -18,7 +20,7 @@ primend: // This marks then end of my allocation
 //r4 = 
 //r5 =
 //r6 = Current number
-//r7 = 
+//r7 = Prime amount counter
 //r8 = Highest prime 
 //r9 = Current prime
 
@@ -46,7 +48,7 @@ primend: // This marks then end of my allocation
 main:
 	LDR r8, =count // Highest prime
 	LDR r0, =primestart // First memory address for primes
-	LDR r7, =primend //Last memory address for primes
+	MOV r7, #2 //Last memory address for primes
 	MOV r2, #0
 	MOV r1, #0
 	MOV r6, #3
@@ -62,6 +64,20 @@ pLoop:
 	CMP r2, #0 // If nextP ended early, and r2 is 1, it means we reached the limit of how many primes we get and we exit the program with the last prime in r9
 	BNE exit
 	mov r9, r6 // Stores the prime in r9
+	ADD r7, r7, #1
+
+#if 1 DEBUG
+	
+	push {r0, r1, r2, r3, r12}
+
+	LDR r0, =str
+	MOV r1, r7
+	MOV r2, r9
+	BL printf
+
+	POP {r0, r1, r2, r3, r12}
+
+#endif
 	B pLoop
 
 delC:
@@ -84,4 +100,11 @@ nextP:
 	B nextP // Otherwise we restart the function
 
 exit:
+
+	LDR r0, =str
+	MOV r1, r7
+	MOV r2, r9
+	BL printf
 	bkpt
+
+str: .asciz "Count: %d, Highest prime: %d\n"
