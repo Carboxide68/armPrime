@@ -66,7 +66,7 @@ pLoop:
 	mov r9, r6 // Stores the prime in r9
 	ADD r7, r7, #1
 
-#if 1 DEBUG
+#ifdef _DEBUG
 	
 	push {r0, r1, r2, r3, r12}
 

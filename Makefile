@@ -2,14 +2,14 @@
 clean:
 	rm *.o nPrime debugPrime
 
-debugPrime: debugPrime.o
-	gcc -D DEBUG -g debugPrime.o -o $@
+debugPrime: nPrime.s
+	gcc -g -x assembler-with-cpp -D _DEBUG nPrime.s -o $@
 
-debugPrime.o: nPrime.s
-	as -g nPrime.s -o $@
+#debugPrime.o: nPrime.s
+#	as -g nPrime.s -o $@
 
-nPrime: nPrime.o
-	gcc -D DEBUG=0 nPrime.o -o $@
+nPrime: nPrime.s
+	gcc -x assembler-with-cpp nPrime.s -o $@
 
-nPrime.o: nPrime.s
-	as nPrime.s -o $@
+#nPrime.o: nPrime.s
+#	as nPrime.s -o $@
