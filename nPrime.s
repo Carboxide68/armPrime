@@ -100,11 +100,12 @@ nextP:
 	B nextP // Otherwise we restart the function
 
 exit:
-
+#ifndef _OPTIMIZE
 	LDR r0, =str
 	MOV r1, r7
 	MOV r2, r9
 	BL printf
 	bkpt
+#ifend
 
 str: .asciz "Count: %d, Highest prime: %d\n"

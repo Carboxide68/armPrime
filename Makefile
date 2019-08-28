@@ -7,3 +7,6 @@ debugPrime: nPrime.s
 
 nPrime: nPrime.s
 	gcc -x assembler-with-cpp nPrime.s -o $@
+
+oPrime: nPrime.s
+	gcc -x assembler-with-cpp nPrime.s -D _OPTIMIZE -o $@ -O3
