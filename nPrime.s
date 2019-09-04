@@ -4,7 +4,7 @@
 
 .extern printf
 
-.equ count, 100000 // Set this to mark the upper limit of the targeted number
+.equ count, 7000000 // Set this to mark the upper limit of the targeted number
 
 .data
 
